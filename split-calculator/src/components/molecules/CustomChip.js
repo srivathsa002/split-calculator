@@ -8,11 +8,11 @@ const CustomChip = (props) => {
 
     const getAvatarLabel = (givenLabel) => {
         let avatarLabel = "";
-        let labelArr = givenLabel.split("");
+        let labelArr = givenLabel.trim().split("");
         if (labelArr.length == 1)
             avatarLabel = labelArr[0];
         else if (labelArr.length > 1)
-            labelArr.forEach((each) => avatarLabel = avatarLabel.concat(each));
+            labelArr.forEach((each) => avatarLabel = avatarLabel.concat(each[0]));
         return avatarLabel;
     }
 

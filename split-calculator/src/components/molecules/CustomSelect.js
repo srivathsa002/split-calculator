@@ -5,6 +5,7 @@ const CustomSelect = (props) => {
 
     const { labelId, label, value, onOptionChange, itemsList } = props;
 
+    // This is a dropdwon for Tax selection.
     return (
         <FormControl>
             <InputLabel id={labelId}>{label}</InputLabel>

@@ -3,10 +3,15 @@ import React from "react";
 
 const CustomTextField = (props) => {
     
-    const { label, variant, handleInputChange } = props;
+    const { value, label, variant, handleInputChange } = props;
     
     return (
-        <TextField label={label} variant={variant} onChange={(event) => handleInputChange(event.target.value)} />
+        <TextField
+            value={value}
+            label={label}
+            variant={variant}
+            onChange={(event) => handleInputChange(event.target.value)}
+        />
     )
 }
 

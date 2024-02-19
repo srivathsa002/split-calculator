@@ -1,16 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Container from '@mui/material/Container';
-
+import { ThemeProvider } from '@emotion/react';
+import {theme} from "./utils/theme";
+import MainTemplate from './components/templates/MainTemplate';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Container disableGutters={true} maxWidth={false}>
-      <App />
+      {/* <ThemeProvider theme={theme}> */}
+        <MainTemplate />
+      {/* </ThemeProvider> */}
     </Container>
   </React.StrictMode>
 );

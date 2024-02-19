@@ -4,13 +4,13 @@ import CustomAvatar from "../atoms/CustomAvatar";
 
 const CustomChip = (props) => {
 
-    const { label, handleClick, variant } = props;
+    const { label, handleDelete, variant } = props;
 
     const getAvatarLabel = (givenLabel) => {
         let avatarLabel = "";
-        let labelArr = givenLabel.trim().split("");
-        if (labelArr.length == 1)
-            avatarLabel = labelArr[0];
+        let labelArr = givenLabel.trim().split(" ");
+        if (labelArr.length === 1)
+            avatarLabel = labelArr[0][0].toUpperCase();
         else if (labelArr.length > 1)
             labelArr.forEach((each) => avatarLabel = avatarLabel.concat(each[0]));
         return avatarLabel;
@@ -20,7 +20,7 @@ const CustomChip = (props) => {
         <Chip
             avatar={<CustomAvatar avatarLabel={getAvatarLabel(label)} />}
             label={label}
-            onClick={handleClick}
+            onDelete={handleDelete}
             variant={variant}
         />
     )

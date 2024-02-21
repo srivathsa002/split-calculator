@@ -1,10 +1,9 @@
-import { Chip } from "@mui/material";
+import { Chip, Avatar } from "@mui/material";
 import React from "react";
-import CustomAvatar from "../atoms/CustomAvatar";
 
 const CustomChip = (props) => {
 
-    const { label, handleDelete, variant } = props;
+    const { label, handleDelete, handleClick, variant, isDeletable, color, bgColor } = props;
 
     const getAvatarLabel = (givenLabel) => {
         let avatarLabel = "";
@@ -18,10 +17,12 @@ const CustomChip = (props) => {
 
     return (
         <Chip
-            avatar={<CustomAvatar avatarLabel={getAvatarLabel(label)} />}
+            avatar={<Avatar sx={{bgcolor: `${bgColor}`}}>{getAvatarLabel(label)}</Avatar>}
             label={label}
-            onDelete={handleDelete}
+            onDelete={isDeletable ? handleDelete() : undefined}
+            onClick={() => handleClick()}
             variant={variant}
+            color={color}
         />
     )
 

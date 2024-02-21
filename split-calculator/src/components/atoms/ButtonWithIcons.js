@@ -7,7 +7,7 @@ const ButtonWithIcons = (props) => {
         <Button
             startIcon={icon}
             variant={variant}
-            onClick={handleClick}
+            onClick={() => handleClick()}
             disabled={isDisabled}
         >
             {label}

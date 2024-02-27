@@ -5,16 +5,17 @@ import reportWebVitals from './reportWebVitals';
 import Container from '@mui/material/Container';
 import { ThemeProvider } from '@emotion/react';
 import {theme} from "./utils/theme";
-import MainTemplate from './components/templates/MainTemplate';
+// import MainTemplate from './components/templates/MainTemplate';
+import Structure from './components/templates/Structure';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Container disableGutters={true} maxWidth={false}>
-      {/* <ThemeProvider theme={theme}> */}
-        <MainTemplate />
-      {/* </ThemeProvider> */}
-    </Container>
+    <ThemeProvider theme={theme}>
+      <Container disableGutters={true} maxWidth={false}>
+        <Structure />
+      </Container>
+    </ThemeProvider>
   </React.StrictMode>
 );
 

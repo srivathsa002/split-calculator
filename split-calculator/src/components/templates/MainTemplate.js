@@ -1,12 +1,12 @@
 import { Box, Grid } from "@mui/material";
 import React, { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
-import ButtonWithIcons from "../atoms/ButtonWithIcons";
+// import ButtonWithIcons from "../atoms/ButtonWithIcons";
 import Header from "../molecules/Header";
 import CustomCard from "../organisms/CustomCard";
 import NamesCard from "../organisms/NamesCard";
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
+// import AddIcon from '@mui/icons-material/Add';
+// import DeleteIcon from '@mui/icons-material/Delete';
 import SplitSummary from "../organisms/SplitSummary";
 
 const detailsObj = {

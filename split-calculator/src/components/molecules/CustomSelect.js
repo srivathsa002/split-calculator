@@ -1,4 +1,4 @@
-import { FormControl, MenuItem, Select } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React from "react";
 
 const CustomSelect = (props) => {
@@ -13,9 +13,9 @@ const CustomSelect = (props) => {
                 labelId={labelId}
                 value={value}
                 label={label}
-                onChange={onOptionChange}
+                onChange={(event) => onOptionChange(event.target.value)}
             >
-                {itemsList.map(each => <MenuItem value={each.value}>{each.label}</MenuItem>)}
+                {itemsList.map((each, index) => <MenuItem value={each.value} key={index}>{each.label}</MenuItem>)}
             </Select>
         </FormControl>
         

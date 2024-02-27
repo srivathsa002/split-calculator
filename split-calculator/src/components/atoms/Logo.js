@@ -1,0 +1,21 @@
+import { SvgIcon } from "@mui/material";
+import React from "react";
+
+const Logo = () => {
+    return (
+        <SvgIcon>
+            <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clipPath="url(#clip0_1_449)">
+                    <path fillRule="evenodd" clipRule="evenodd" d="M8 2.08333C8.59393 5.4891 11.2609 8.15607 14.6667 8.75C11.2609 9.34393 8.59393 12.0109 8 15.4167C7.40607 12.0109 4.7391 9.34393 1.33333 8.75C4.7391 8.15607 7.40607 5.4891 8 2.08333Z" fill="#121717"/>
+                </g>
+                <defs>
+                    <clipPath id="clip0_1_449">
+                        <rect width="16" height="16" fill="white" transform="translate(0 0.75)"/>
+                    </clipPath>
+                </defs>
+            </svg>
+        </SvgIcon>
+    );
+};
+
+export default Logo;

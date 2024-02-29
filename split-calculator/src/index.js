@@ -2,20 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import Container from '@mui/material/Container';
-import { ThemeProvider } from '@emotion/react';
-import {theme} from "./utils/theme";
-// import MainTemplate from './components/templates/MainTemplate';
-import Structure from './components/templates/Structure';
+import { RouterProvider as Router } from 'react-router-dom';
+import { router } from "./routes";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <Container disableGutters={true} maxWidth={false}>
-        <Structure />
-      </Container>
-    </ThemeProvider>
+      <Router router={router} />
   </React.StrictMode>
 );
 

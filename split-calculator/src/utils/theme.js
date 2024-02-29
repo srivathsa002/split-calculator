@@ -7,10 +7,10 @@ export const theme = createTheme({
     palette: {
         ...defaultTheme.palette,
         primary: {
-            main: "#121717"
+            main: "#1AE5D1"
         },
         secondary: {
-            main: "#1AE5D1"
+            main: "#F0F5F5"
         },
         error: {
             main: "#D32F2F"
@@ -36,11 +36,11 @@ export const theme = createTheme({
             paper: "#FFF",
             default: "#FFF"
         },
-        // text: {
-        //     primary: rgba(0, 0, 0, 0.87),
-        //     secondary: rgba(0, 0, 0, 0.6),
-        //     disabled: rgba(0, 0, 0, 0.38),
-        // }
+        text: {
+            primary: "#121717",
+            secondary: "#638785",
+            disabled: "rgba(0, 0, 0, 0.38)",
+        }
     },
 });
 

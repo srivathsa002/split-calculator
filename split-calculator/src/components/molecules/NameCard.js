@@ -1,5 +1,4 @@
 import { Avatar, Stack, Typography } from "@mui/material";
-import { grey } from "@mui/material/colors";
 import React from "react";
 import { colorCodes } from "../../utils/colorCodes";
 
@@ -13,7 +12,7 @@ const NameCard = (props) => {
         if (labelArr.length === 1)
             avatarLabel = labelArr[0][0].toUpperCase();
         else if (labelArr.length > 1)
-            labelArr.forEach((each) => avatarLabel = avatarLabel.concat(each[0]));
+            labelArr.forEach((each, index) => index <= 1 ? avatarLabel = avatarLabel.concat(each[0]) : null);
         return avatarLabel;
     }
 
@@ -33,10 +32,10 @@ const NameCard = (props) => {
                 </Typography>
             </Avatar>
             <Stack direction={"column"} spacing={1}>
-                <Typography variant={"body1"} color={"primary"}>
+                <Typography variant={"body1"} color={"textPrimary"}>
                     {name}
                 </Typography>
-                <Typography variant={"body2"} color={grey[500]}>
+                <Typography variant={"body2"} color={"textSecondary"}>
                     {getFirstName(name)}
                 </Typography>
             </Stack>

@@ -1,0 +1,8 @@
+export const ADD_NEW_FRIEND = "ADD_NEW_FRIEND";
+export const REMOVE_FRIEND = "REMOVE_FRIEND";
+export const ADD_NEW_ITEM = "ADD_NEW_ITEM";
+export const EDIT_ITEM = "EDIT_ITEM";
+export const REMOVE_ITEM = "REMOVE_ITEM";
+export const ALTER_IS_SELECTED = "ALTER_IS_SELECTED";
+export const RESET_FRIEND_IS_SELECTED = "RESET_FRIEND_IS_SELECTED";
+export const FETCH_ITEM = "FETCH_ITEM";

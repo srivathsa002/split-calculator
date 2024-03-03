@@ -40,7 +40,16 @@ export const theme = createTheme({
             primary: "#121717",
             secondary: "#638785",
             disabled: "rgba(0, 0, 0, 0.38)",
-        }
+        },
     },
+    components: {
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    textTransform: "none",
+                }
+            }
+        }
+    }
 });
 

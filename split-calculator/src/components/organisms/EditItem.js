@@ -1,15 +1,19 @@
 import { Box, Button, Grid, InputAdornment, List, Stack, TextField, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import NameCardListItem from "../molecules/NameCardListItem";
 import { useDispatch, useSelector } from "react-redux";
 
 const selectFriends = (state) => state.friends;
+const selectItems = (state) => state.items;
 
-const AddItem = () => {
+// TODO: Refactor this component to reuse the same logic in AddItem
+const EditItem = () => {
 
     const friendsList = useSelector(selectFriends);
+    const itemsList = useSelector(selectItems);
+    const { id } = useParams();
 
     const dispatch = useDispatch();
 
@@ -19,6 +23,14 @@ const AddItem = () => {
     const [friendsSelected, setFriendsSelected] = useState([]);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        let itemObj = itemsList.filter(item => item.id === id);
+        setItemName(itemObj.name);
+        setItemCost(itemObj.cost);
+        setItemTax(itemObj.tax);
+        setFriendsSelected([...itemObj.friendsInvolved]);
+    }, [friendsList, id, itemsList])
 
     const handleClear = () => {
         setItemName("");
@@ -50,7 +62,6 @@ const AddItem = () => {
         } else {
             setFriendsSelected([...existingFriends, id]);
         }
-        
         // dispatch({
         //     type: "ALTER_IS_SELECTED",
         //     payload: id
@@ -58,19 +69,26 @@ const AddItem = () => {
     }
 
     const handleAddItem = () => {
+        // dispatch({
+        //     type: "ADD_NEW_ITEM",
+        //     payload: {
+        //         name: itemName,
+        //         cost: itemCost,
+        //         tax: itemTax,
+        //         totalCost: Number(itemCost) * (1 + Number(itemTax)/100),
+        //         friendsInvolved: [...friendsSelected],
+        //     }
+        // })
         dispatch({
-            type: "ADD_NEW_ITEM",
+            type: "EDIT_ITEM",
             payload: {
                 name: itemName,
                 cost: itemCost,
                 tax: itemTax,
                 totalCost: Number(itemCost) * (1 + Number(itemTax)/100),
-                friendsInvolved: [...friendsSelected]
+                friendsInvolved: [...friendsSelected],
             }
         })
-        // dispatch({
-        //     type: "RESET_FRIEND_IS_SELECTED",
-        // })
         navigate("/items");
     }
 
@@ -123,13 +141,13 @@ const AddItem = () => {
                             {"Friends Involved"}
                         </Typography>
                         <List>
-                            {friendsList.map((friend, idx) => (
+                            {friendsList.map((each, idx) => (
                                 <NameCardListItem
                                     key={idx}
-                                    nameObj={friend}
-                                    handleFriendSelection={() => handleSelectedFriend(friend.id)}
+                                    nameObj={each}
+                                    handleFriendSelection={() => handleSelectedFriend(each.id)}
                                     colorIdx={idx}
-                                    isSelected={friendsSelected.includes(friend.id)}
+                                    isSelected={friendsSelected.includes(each.id)}
                                 />
                             ))}
                         </List>
@@ -148,4 +166,4 @@ const AddItem = () => {
     )
 }
 
-export default AddItem;
+export default EditItem;

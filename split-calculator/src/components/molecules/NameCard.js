@@ -21,7 +21,7 @@ const NameCard = (props) => {
     }
 
     const getColor = (code) => {
-        return colorCodes[code];
+        return colorCodes[code % 8];
     }
 
     return (

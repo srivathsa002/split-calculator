@@ -21,7 +21,7 @@ const NameCardListItem = (props) => {
                 sx={{ borderRadius: "10px" }}
             >
                 <ListItemButton onClick={() => handleFriendSelection()}>
-                    <NameCard name={nameObj.name} colorCode={colorIdx} />
+                    <NameCard name={nameObj.name} colorCode={colorIdx} isName={true} displayAvatar={true} />
                 </ListItemButton>
             </ListItem>
         </Paper>

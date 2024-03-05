@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router';
 import NoContent from "../molecules/NoContent";
+import ItemCardListItem from "./ItemCardListItem";
 
 const selectFriends = (state) => state.friends;
 const selectItems = (state) => state.items;
@@ -12,6 +13,7 @@ const Items = () => {
     const navigate = useNavigate();
     const friendsList = useSelector(selectFriends);
     const itemsList = useSelector(selectItems);
+    console.log("itemsList: ", itemsList);
     const dispatch = useDispatch();
 
     const [selectedItem, setSelectedItem] = useState("");
@@ -29,7 +31,7 @@ const Items = () => {
     };
 
     const handleEditItem = () => {
-        navigate(`/items/:id/edit`);
+        navigate(`/items/${selectedItem}/edit`);
     }
 
     const handleDeleteItem = () => {
@@ -43,7 +45,7 @@ const Items = () => {
     return (
         <Box sx={{ padding: "40px" }}>
             <Grid container direction={"column"} justifyContent={"center"} alignItems={"center"}>
-                <Grid item sx={{ minWidth: "450px" }}>
+                <Grid item sx={{ minWidth: "450px", maxWidth: "850px" }}>
                     <Stack direction={"column"} alignItems={"stretch"} justifyContent={"center"} spacing={3}>
                         <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
                             <Typography variant={"h6"} color={"textPrimary"}>
@@ -58,21 +60,13 @@ const Items = () => {
                                 <NoContent text={"Please add items to get started"} />
                             :
                                 itemsList.map((item, idx) => (
-                                    <Stack direction={"row"} justifyContent={"flex-start"} alignItems={"center"} spacing={3} key={idx}>
-                                        <div>{"Image"}</div>
-                                        <Stack direction={"column"} justifyContent={"center"} alignItems={"flex-start"} spacing={1}>
-                                            <Typography variant={"body1"} color={"textPrimary"}>
-                                                {item.name}
-                                            </Typography>
-                                            {console.dir("item: ", item)}
-                                            <Typography variant={"body2"} color={"textSecondary"}>
-                                                {`Split with ${getFriendsNames(item.friendsInvolved)}`}
-                                            </Typography>
-                                            <Typography variant={"body2"} color={"textSecondary"}>
-                                                {`$ ${Number(item.totalCost).toFixed(4)}`}
-                                            </Typography>
-                                        </Stack>
-                                    </Stack>
+                                    <ItemCardListItem
+                                        key={idx}
+                                        handleItemSelection={() => setSelectedItem(item.id)}
+                                        itemObj={item}
+                                        isSelected={selectedItem === item.id}
+                                        getFriendsNames={(ids) => getFriendsNames(ids)}
+                                    />
                                 ))
                         }
                         {

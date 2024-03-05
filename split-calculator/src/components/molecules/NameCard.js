@@ -4,7 +4,7 @@ import { colorCodes } from "../../utils/colorCodes";
 
 const NameCard = (props) => {
 
-    const { name, colorCode } = props;
+    const { name, colorCode, itemCount, displayAvatar } = props;
 
     const getAvatarLabel = (givenName) => {
         let avatarLabel = "";
@@ -26,17 +26,20 @@ const NameCard = (props) => {
 
     return (
         <Stack direction={"row"} justifyContent={"center"} alignItems={"center"} spacing={2}>
-            <Avatar sx={{ bgcolor: getColor(colorCode), width: 60, height: 60 }}>
-                <Typography variant={"h5"}>
-                    {getAvatarLabel(name)}
-                </Typography>
-            </Avatar>
+            {
+                displayAvatar &&
+                    <Avatar sx={{ bgcolor: getColor(colorCode), width: 60, height: 60 }}>
+                        <Typography variant={"h5"}>
+                            {getAvatarLabel(name)}
+                        </Typography>
+                    </Avatar>
+            }
             <Stack direction={"column"} spacing={1}>
                 <Typography variant={"body1"} color={"textPrimary"}>
                     {name}
                 </Typography>
                 <Typography variant={"body2"} color={"textSecondary"}>
-                    {getFirstName(name)}
+                    {itemCount === undefined  ? getFirstName(name) : itemCount === 1 ? `${itemCount} item` : `${itemCount} items`}
                 </Typography>
             </Stack>
         </Stack>

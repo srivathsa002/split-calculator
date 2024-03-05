@@ -98,7 +98,7 @@ const HomeCard = () => {
                                 friends.length !== 0 ?
                                     friends.map((each, idx) => (
                                         <Stack key={idx} direction={"row"} justifyContent={"space-between"} alignItems={"center"} spacing={8}>
-                                            <NameCard name={each.name} colorCode={idx} />
+                                            <NameCard name={each.name} colorCode={idx} displayAvatar={true} />
                                             <IconButton
                                                 onClick={() => handleRemoveFriend(each.id)}
                                                 color={"inherit"}

@@ -57,15 +57,52 @@ const AddItem = () => {
         // });
     }
 
+    const getRandomInt = (max) => {
+        return Math.floor(Math.random() * max);
+    }
+
     const handleAddItem = () => {
+        let totalCost = parseFloat((Number(itemCost) * (1 + Number(itemTax)/100)).toFixed(2));
+        let splitAmount = totalCost/friendsSelected.length;
+        splitAmount *= 100;
+        splitAmount = Math.floor(splitAmount)/100;
+        let difference = parseFloat((totalCost - splitAmount*friendsSelected.length).toFixed(2));
+        while(!Number.isInteger(difference)) {
+            difference *= 10;
+        }
+
+        let choiceArr = [...Array(difference).keys()];
+        let copyOfChoiceArr = choiceArr.slice();
+        let randomArr = [];
+        
+
+        // TODO: Handle uneven split divide using random assignment
+        // diff -> No. of times 0.01 should be added
+        // Pick random index "diff" times
+        for (const ele in choiceArr) {
+            let randIdx = getRandomInt(copyOfChoiceArr.length);
+            randomArr.push(friendsSelected[randIdx]);
+            // copyOfChoiceArr
+        }
+
+        // for(index in copyOfFriends) {
+        //     randomArr.push(getRandomInt())
+        // }
+        let friendsInvolved = [];
+        friendsSelected.forEach((friend, index) => 
+            friendsInvolved.push({
+                id: friend,
+                splitCost: difference === 0 ? parseFloat(totalCost) : parseFloat(totalCost),
+            })
+        )
         dispatch({
             type: "ADD_NEW_ITEM",
             payload: {
                 name: itemName,
                 cost: itemCost,
                 tax: itemTax,
-                totalCost: Number(itemCost) * (1 + Number(itemTax)/100),
-                friendsInvolved: [...friendsSelected]
+                friendsInvolved: [...friendsSelected],
+                totalCost,
             }
         })
         // dispatch({

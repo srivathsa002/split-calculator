@@ -1,34 +1,48 @@
-import { Card, Grid, Table, TableBody, TableCell, TableRow, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Stack, Typography } from "@mui/material";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from "react";
+import { useSelector } from "react-redux";
 
-const SplitSummary = (props) => {
+const selectItems = state => state.items;
+const selectFriends = state => state.friends;
 
-    const { splitSummaryObj } = props;
+const SplitSummary = () => {
+
+    const itemsList = useSelector(selectItems);
+
 
     return (
-        <Card>
-            <Grid container direction={"column"} justifyContent={"center"} alignItems={"center"}>
-                <Grid item>
-                    <Typography variant={"h6"}>{splitSummaryObj["itemName"].charAt(0).toUpperCase() + splitSummaryObj["itemName"].slice(1)}</Typography>
-                </Grid>
-                <Grid item>
-                    <Table>
-                        <TableBody style={{borderBottom: "0 !important"}}>
-                            {
-                                splitSummaryObj["peopleInvolved"].map((each, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>{each}</TableCell>
-                                        <TableCell align={"left"}>{":"}</TableCell>
-                                        <TableCell>{splitSummaryObj["perHeadCost"]}</TableCell>
-                                    </TableRow>
-                                ))
-                            }
-                    </TableBody>
-                    </Table>
-                </Grid>
-            </Grid>
-        </Card>
-    );
+        <Stack direction={"column"} justifyContent={"flex-start"} alignItems={"stretch"} spacing={2}>
+            <Typography variant={"h5"} color={"textPrimary"}>
+                {"Split Summary"}
+            </Typography>
+            {
+                itemsList.map((item, index) => 
+                    (
+                        <Accordion key={index}>
+                            <AccordionSummary
+                                id={`item-${index}`}
+                                expandIcon={<ExpandMoreIcon />}
+                            >
+                                <Stack direction={"row"} justifyContent={"stretch"} alignItems={"center"}>
+                                    <Typography variant={"h6"} color={"textPrimary"}>
+                                        {item.name}
+                                    </Typography>
+                                    <Typography variant={"h6"} color={"textPrimary"}>
+                                        {`$ ${item.totalCost.toFixed(2)}`}
+                                    </Typography>
+                                </Stack>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                {item.friendsInvolved}
+                            </AccordionDetails>
+                        </Accordion>
+                    )
+                )
+            }
+            
+        </Stack>
+    )
 }
 
 export default SplitSummary;

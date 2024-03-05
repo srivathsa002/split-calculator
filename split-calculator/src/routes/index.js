@@ -4,7 +4,7 @@ import AddItem from "../components/organisms/AddItem";
 import EditItem from "../components/organisms/EditItem";
 import HomeCard from "../components/organisms/HomeCard";
 import Items from "../components/organisms/Items";
-import SplitSummaryy from "../components/organisms/SplitSummaryy";
+import SummaryTemplate from "../components/templates/SummaryTemplate";
 
 export const router = createBrowserRouter([
     {
@@ -29,7 +29,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/splitSummary",
-                element: <SplitSummaryy />
+                element: <SummaryTemplate />
             }
         ],
     },

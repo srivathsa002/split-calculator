@@ -26,10 +26,11 @@ const EditItem = () => {
 
     useEffect(() => {
         let itemObj = itemsList.filter(item => item.id === id);
-        setItemName(itemObj.name);
-        setItemCost(itemObj.cost);
-        setItemTax(itemObj.tax);
-        setFriendsSelected([...itemObj.friendsInvolved]);
+        console.dir("itemObj: ", itemObj);
+        setItemName(itemObj[0].name);
+        setItemCost(itemObj[0].cost);
+        setItemTax(itemObj[0].tax);
+        setFriendsSelected([...itemObj[0].friendsInvolved]);
     }, [friendsList, id, itemsList])
 
     const handleClear = () => {
@@ -82,6 +83,7 @@ const EditItem = () => {
         dispatch({
             type: "EDIT_ITEM",
             payload: {
+                id: id,
                 name: itemName,
                 cost: itemCost,
                 tax: itemTax,

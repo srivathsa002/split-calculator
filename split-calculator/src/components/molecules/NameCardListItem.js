@@ -20,7 +20,11 @@ const NameCardListItem = (props) => {
                 secondaryAction={isSelected && <CheckBoxOutlinedIcon color={"primary"} />}
                 sx={{ borderRadius: "10px" }}
             >
-                <ListItemButton onClick={() => handleFriendSelection()}>
+                <ListItemButton onClick={() => handleFriendSelection()} sx={{
+                    "&:hover": {
+                        backgroundColor: "#F0F5F5",
+                    }
+                }}>
                     <NameCard name={nameObj.name} colorCode={colorIdx} isName={true} displayAvatar={true} />
                 </ListItemButton>
             </ListItem>

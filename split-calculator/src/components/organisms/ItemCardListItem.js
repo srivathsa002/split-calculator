@@ -15,7 +15,11 @@ const ItemCardListItem = (props) => {
                 // secondaryAction={isSelected && <CheckBoxOutlinedIcon color={"primary"} />}
                 sx={{ borderRadius: "10px" }}
             >
-                <ListItemButton onClick={() => handleItemSelection()}>
+                <ListItemButton onClick={() => handleItemSelection()} sx={{
+                    "&:hover": {
+                        backgroundColor: "#F0F5F5",
+                    }
+                }}>
                     <ListItemIcon>
                         <Radio
                             checked={isSelected}

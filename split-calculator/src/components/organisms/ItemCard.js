@@ -18,7 +18,7 @@ const ItemCard = ( props ) => {
                     {`Split with ${getFriendsNames(item.friendsInvolved)}`}
                 </Typography>
                 <Typography variant={"body2"} color={"textSecondary"}>
-                    {`$ ${Number(item.totalCost).toFixed(4)}`}
+                    {`$ ${Number(item.totalCost).toFixed(2)}`}
                 </Typography>
             </Stack>
         </Stack>

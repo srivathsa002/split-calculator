@@ -1,7 +1,8 @@
-import { Accordion, AccordionDetails, AccordionSummary, Stack, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Stack, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from "react";
 import { useSelector } from "react-redux";
+import NoContent from "../molecules/NoContent";
 
 const selectItems = state => state.items;
 const selectFriends = state => state.friends;
@@ -9,6 +10,7 @@ const selectFriends = state => state.friends;
 const SplitSummary = () => {
 
     const itemsList = useSelector(selectItems);
+    const friendsList = useSelector(selectFriends);
 
 
     return (
@@ -17,6 +19,7 @@ const SplitSummary = () => {
                 {"Split Summary"}
             </Typography>
             {
+                itemsList.length === 0 ? (<NoContent text={"Please add items to get started"} />) :
                 itemsList.map((item, index) => 
                     (
                         <Accordion key={index}>
@@ -24,7 +27,7 @@ const SplitSummary = () => {
                                 id={`item-${index}`}
                                 expandIcon={<ExpandMoreIcon />}
                             >
-                                <Stack direction={"row"} justifyContent={"stretch"} alignItems={"center"}>
+                                <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"} sx={{ width: "-webkit-fill-available", marginRight: "4px" }}>
                                     <Typography variant={"h6"} color={"textPrimary"}>
                                         {item.name}
                                     </Typography>
@@ -34,13 +37,47 @@ const SplitSummary = () => {
                                 </Stack>
                             </AccordionSummary>
                             <AccordionDetails>
-                                {item.friendsInvolved}
+                                <Stack direction={"roww"} justifyContent={"center"} alignItems={"center"}>
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>
+                                                    <Typography variant={"body1"} color={"textPrimary"}>
+                                                        {"Friend"}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell align={"right"}>
+                                                    <Typography variant={"body1"} color={"textPrimary"}>
+                                                        {"Split Amount"}
+                                                    </Typography>
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {
+                                                item.friendsInvolved.map((each, idx) => (
+                                                    <TableRow key={idx}>
+                                                        <TableCell>
+                                                            <Typography variant={"body2"} color={"textSecondary"}>
+                                                                {friendsList.filter(friend => friend.id === each.id)[0].name}
+                                                            </Typography>
+                                                            </TableCell>
+                                                        <TableCell align={"right"}>
+                                                            <Typography variant={"body2"} color={"textSecondary"}>
+                                                                {`$ ${each.splitAmount}`}
+                                                            </Typography>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))
+                                            }
+                                        </TableBody>
+                                    </Table>
+                                </Stack>
                             </AccordionDetails>
                         </Accordion>
                     )
                 )
             }
-            
         </Stack>
     )
 }

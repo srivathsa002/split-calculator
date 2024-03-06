@@ -1,5 +1,5 @@
 import { Box, Button, Grid, InputAdornment, List, Stack, TextField, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { useNavigate } from "react-router";
 import NameCardListItem from "../molecules/NameCardListItem";
@@ -20,10 +20,15 @@ const AddItem = () => {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        console.log("useEffect => friendsSelected: ", friendsSelected);
+    }, [friendsSelected])
+
     const handleClear = () => {
         setItemName("");
         setItemCost("");
         setItemTax("");
+        setFriendsSelected([]);
         navigate("/items");
     }
 
@@ -45,7 +50,7 @@ const AddItem = () => {
         let existingFriends = [...friendsSelected];
         let idx = existingFriends.findIndex(each => each === id);
         if (idx !== -1) {
-            delete existingFriends[idx];
+            existingFriends.splice(idx, 1);
             setFriendsSelected([...existingFriends]);
         } else {
             setFriendsSelected([...existingFriends, id]);
@@ -62,46 +67,56 @@ const AddItem = () => {
     }
 
     const handleAddItem = () => {
+        // console.log("Inside Add Item:::::");
+        // console.log("selected friends: " + friendsSelected.length);
         let totalCost = parseFloat((Number(itemCost) * (1 + Number(itemTax)/100)).toFixed(2));
-        let splitAmount = totalCost/friendsSelected.length;
+        // console.log("total Cost: " + totalCost);
+        let splitAmount = totalCost/(friendsSelected.length);
+        // console.log("split amount: " + splitAmount);
         splitAmount *= 100;
+        // console.log("split amount multiplied by 100: " + splitAmount);
         splitAmount = Math.floor(splitAmount)/100;
-        let difference = parseFloat((totalCost - splitAmount*friendsSelected.length).toFixed(2));
+        // console.log("final split amount: " + splitAmount);
+        let difference = parseFloat((totalCost - splitAmount*(friendsSelected.length)).toFixed(2));
+        // console.log("difference: " + difference);
         while(!Number.isInteger(difference)) {
             difference *= 10;
         }
+        // console.log("difference after while loop: " + difference);
 
-        let choiceArr = [...Array(difference).keys()];
+        let choiceArr = [...Array(friendsSelected.length).keys()];
+        // console.log("choice array of friendIndexes: ", choiceArr);
         let copyOfChoiceArr = choiceArr.slice();
+        // console.log("choice array of copied indexes: ", copyOfChoiceArr);
         let randomArr = [];
-        
 
         // TODO: Handle uneven split divide using random assignment
         // diff -> No. of times 0.01 should be added
         // Pick random index "diff" times
-        for (const ele in choiceArr) {
+        for (let i = 0; i < difference; i++) {
             let randIdx = getRandomInt(copyOfChoiceArr.length);
+            // console.log("random index round " + i + ": ", randIdx);
             randomArr.push(friendsSelected[randIdx]);
-            // copyOfChoiceArr
+            copyOfChoiceArr.splice(randIdx, 1);
+            // console.log("choice array of copied indexes updated: ", copyOfChoiceArr);
         }
 
-        // for(index in copyOfFriends) {
-        //     randomArr.push(getRandomInt())
-        // }
+        // console.log("final random choices array: ", randomArr);
         let friendsInvolved = [];
-        friendsSelected.forEach((friend, index) => 
+        friendsSelected.forEach(friend =>
             friendsInvolved.push({
                 id: friend,
-                splitCost: difference === 0 ? parseFloat(totalCost) : parseFloat(totalCost),
+                splitAmount: difference === 0 ? splitAmount : randomArr.includes(friend) ? parseFloat((splitAmount + 0.01).toFixed(2)) : splitAmount,
             })
         )
+        // console.log("Friends Involved that is to be dispatched: ", friendsInvolved);
         dispatch({
             type: "ADD_NEW_ITEM",
             payload: {
                 name: itemName,
                 cost: itemCost,
                 tax: itemTax,
-                friendsInvolved: [...friendsSelected],
+                friendsInvolved: [...friendsInvolved],
                 totalCost,
             }
         })
@@ -171,7 +186,11 @@ const AddItem = () => {
                             ))}
                         </List>
                         <Stack direction={"row"} justifyContent={"end"} alignItems={"center"} spacing={3}>
-                            <Button variant={"contained"} color={"secondary"} onClick={() => handleClear()}>
+                            <Button variant={"contained"} color={"secondary"} onClick={() => handleClear()} sx={{
+                                "&:hover": {
+                                    backgroundColor: "#F0F5F5",
+                                }
+                            }}>
                                 {"Cancel"}
                             </Button>
                             <Button variant={"contained"} color={"primary"} onClick={() => handleAddItem()}>

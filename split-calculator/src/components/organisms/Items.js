@@ -26,8 +26,9 @@ const Items = () => {
         console.log("getFriendName: " + friendIds);
         console.dir("list: ", friendsList);
         let names = [];
-        friendsList.forEach(friend => friendIds.includes(friend.id) && names.push(friend.name));
-        return names;
+        friendIds.forEach(each => names.push(friendsList.filter(friend => friend.id === each.id)[0].name));
+        // friendsList.forEach(friend => friendIds.includes(friend.id) && names.push(friend.name));
+        return names.join(", ");
     };
 
     const handleEditItem = () => {
@@ -48,7 +49,7 @@ const Items = () => {
                 <Grid item sx={{ minWidth: "450px", maxWidth: "850px" }}>
                     <Stack direction={"column"} alignItems={"stretch"} justifyContent={"center"} spacing={3}>
                         <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
-                            <Typography variant={"h6"} color={"textPrimary"}>
+                            <Typography variant={"h5"} color={"textPrimary"}>
                                 {"Itemized Costs"}
                             </Typography>
                             <Button variant={"contained"} color={"primary"} onClick={() => handleAddItem()}>
@@ -72,7 +73,11 @@ const Items = () => {
                         {
                             itemsList.length !== 0 &&
                                 <Stack direction={"row"} justifyContent={"flex-end"} alignItems={"center"} spacing={2}>
-                                    <Button variant={"contained"} color={"secondary"} onClick={() => handleEditItem()} disabled={selectedItem === ""}>
+                                    <Button variant={"contained"} color={"secondary"} onClick={() => handleEditItem()} disabled={selectedItem === ""} sx={{
+                                        "&:hover": {
+                                            backgroundColor: "#F0F5F5",
+                                        }
+                                    }}>
                                         {"Edit"}
                                     </Button>
                                     {/* TODO: Add delete success snackbar toast*/}

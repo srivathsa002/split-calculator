@@ -20,7 +20,8 @@ const Summary = () => {
 
     const getIndividualCost = (id) => {
         let total = 0;
-        itemsList.forEach(item => total += item.totalCost);
+        itemsList.forEach(item => total += item.friendsInvolved.filter(each => each.id === id).length !==0 ? item.friendsInvolved.filter(each => each.id === id)[0].splitAmount : 0);
+        // itemsList.forEach(item => total += item.totalCost);
         return `$ ${total.toFixed(2)}`;
     }
 
@@ -45,7 +46,7 @@ const Summary = () => {
                                     displayAvatar={true}
                                     name={friend.name}
                                     colorCode={index}
-                                    itemCount={itemsList.filter(item => item.friendsInvolved.includes(friend.id)).length}
+                                    itemCount={itemsList.filter(item => item.friendsInvolved.filter(each => each.id === friend.id)[0]).length}
                                 />
                                 <Typography variant={"body1"} color={"textPrimary"}>
                                     { getIndividualCost(friend.id) }

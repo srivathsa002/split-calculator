@@ -25,13 +25,19 @@ const EditItem = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.dir("useEffect => friendsSelected: ", friendsSelected);
+    }, [friendsSelected])
+
+    useEffect(() => {
         let itemObj = itemsList.filter(item => item.id === id);
-        console.dir("itemObj: ", itemObj);
         setItemName(itemObj[0].name);
         setItemCost(itemObj[0].cost);
         setItemTax(itemObj[0].tax);
-        setFriendsSelected([...itemObj[0].friendsInvolved]);
-    }, [friendsList, id, itemsList])
+        let friendIds = [];
+        itemObj[0].friendsInvolved.forEach(friend => friendIds.push(friend.id));
+        setFriendsSelected([...friendIds]);
+        // setFriendsSelected([...itemObj[0].friendsInvolved]);
+    }, [])
 
     const handleClear = () => {
         setItemName("");
@@ -58,7 +64,7 @@ const EditItem = () => {
         let existingFriends = [...friendsSelected];
         let idx = existingFriends.findIndex(each => each === id);
         if (idx !== -1) {
-            delete existingFriends[idx];
+            existingFriends.splice(idx, 1);
             setFriendsSelected([...existingFriends]);
         } else {
             setFriendsSelected([...existingFriends, id]);
@@ -67,6 +73,10 @@ const EditItem = () => {
         //     type: "ALTER_IS_SELECTED",
         //     payload: id
         // });
+    }
+
+    const getRandomInt = (max) => {
+        return Math.floor(Math.random() * max);
     }
 
     const handleAddItem = () => {
@@ -80,6 +90,36 @@ const EditItem = () => {
         //         friendsInvolved: [...friendsSelected],
         //     }
         // })
+        let totalCost = parseFloat((Number(itemCost) * (1 + Number(itemTax)/100)).toFixed(2));
+        let splitAmount = totalCost/friendsSelected.length;
+        splitAmount *= 100;
+        splitAmount = Math.floor(splitAmount)/100;
+        let difference = parseFloat((totalCost - splitAmount*friendsSelected.length).toFixed(2));
+        while(!Number.isInteger(difference)) {
+            difference *= 10;
+        }
+
+        let choiceArr = [...Array(friendsSelected.length).keys()];
+        let copyOfChoiceArr = choiceArr.slice();
+        let randomArr = [];
+        
+
+        // TODO: Handle uneven split divide using random assignment
+        // diff -> No. of times 0.01 should be added
+        // Pick random index "diff" times
+        for (let i = 0; i < difference; i++) {
+            let randIdx = getRandomInt(copyOfChoiceArr.length);
+            randomArr.push(friendsSelected[randIdx]);
+            copyOfChoiceArr.splice(randIdx, 1);
+        }
+
+        let friendsInvolved = [];
+        friendsSelected.forEach(friend =>
+            friendsInvolved.push({
+                id: friend,
+                splitAmount: difference === 0 ? splitAmount : randomArr.includes(friend) ? parseFloat((splitAmount + 0.01).toFixed(2)) : splitAmount,
+            })
+        )
         dispatch({
             type: "EDIT_ITEM",
             payload: {
@@ -87,8 +127,8 @@ const EditItem = () => {
                 name: itemName,
                 cost: itemCost,
                 tax: itemTax,
-                totalCost: Number(itemCost) * (1 + Number(itemTax)/100),
-                friendsInvolved: [...friendsSelected],
+                friendsInvolved: [...friendsInvolved],
+                totalCost,
             }
         })
         navigate("/items");
@@ -154,7 +194,11 @@ const EditItem = () => {
                             ))}
                         </List>
                         <Stack direction={"row"} justifyContent={"end"} alignItems={"center"} spacing={3}>
-                            <Button variant={"contained"} color={"secondary"} onClick={() => handleClear()}>
+                            <Button variant={"contained"} color={"secondary"} onClick={() => handleClear()} sx={{
+                                "&:hover": {
+                                    backgroundColor: "#F0F5F5",
+                                }
+                            }}>
                                 {"Cancel"}
                             </Button>
                             <Button variant={"contained"} color={"primary"} onClick={() => handleAddItem()}>

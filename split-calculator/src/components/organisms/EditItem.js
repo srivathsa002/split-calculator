@@ -1,15 +1,19 @@
 import { Box, Button, Grid, InputAdornment, List, Stack, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import NameCardListItem from "../molecules/NameCardListItem";
 import { useDispatch, useSelector } from "react-redux";
 
 const selectFriends = (state) => state.friends;
+const selectItems = (state) => state.items;
 
-const AddItem = () => {
+// TODO: Refactor this component to reuse the same logic in AddItem
+const EditItem = () => {
 
     const friendsList = useSelector(selectFriends);
+    const itemsList = useSelector(selectItems);
+    const { id } = useParams();
 
     const dispatch = useDispatch();
 
@@ -21,14 +25,24 @@ const AddItem = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("useEffect => friendsSelected: ", friendsSelected);
+        console.dir("useEffect => friendsSelected: ", friendsSelected);
     }, [friendsSelected])
+
+    useEffect(() => {
+        let itemObj = itemsList.filter(item => item.id === id);
+        setItemName(itemObj[0].name);
+        setItemCost(itemObj[0].cost);
+        setItemTax(itemObj[0].tax);
+        let friendIds = [];
+        itemObj[0].friendsInvolved.forEach(friend => friendIds.push(friend.id));
+        setFriendsSelected([...friendIds]);
+        // setFriendsSelected([...itemObj[0].friendsInvolved]);
+    }, [])
 
     const handleClear = () => {
         setItemName("");
         setItemCost("");
         setItemTax("");
-        setFriendsSelected([]);
         navigate("/items");
     }
 
@@ -55,7 +69,6 @@ const AddItem = () => {
         } else {
             setFriendsSelected([...existingFriends, id]);
         }
-        
         // dispatch({
         //     type: "ALTER_IS_SELECTED",
         //     payload: id
@@ -67,41 +80,39 @@ const AddItem = () => {
     }
 
     const handleAddItem = () => {
-        // console.log("Inside Add Item:::::");
-        // console.log("selected friends: " + friendsSelected.length);
+        // dispatch({
+        //     type: "ADD_NEW_ITEM",
+        //     payload: {
+        //         name: itemName,
+        //         cost: itemCost,
+        //         tax: itemTax,
+        //         totalCost: Number(itemCost) * (1 + Number(itemTax)/100),
+        //         friendsInvolved: [...friendsSelected],
+        //     }
+        // })
         let totalCost = parseFloat((Number(itemCost) * (1 + Number(itemTax)/100)).toFixed(2));
-        // console.log("total Cost: " + totalCost);
-        let splitAmount = totalCost/(friendsSelected.length);
-        // console.log("split amount: " + splitAmount);
+        let splitAmount = totalCost/friendsSelected.length;
         splitAmount *= 100;
-        // console.log("split amount multiplied by 100: " + splitAmount);
         splitAmount = Math.floor(splitAmount)/100;
-        // console.log("final split amount: " + splitAmount);
-        let difference = parseFloat((totalCost - splitAmount*(friendsSelected.length)).toFixed(2));
-        // console.log("difference: " + difference);
+        let difference = parseFloat((totalCost - splitAmount*friendsSelected.length).toFixed(2));
         while(!Number.isInteger(difference)) {
             difference *= 10;
         }
-        // console.log("difference after while loop: " + difference);
 
         let choiceArr = [...Array(friendsSelected.length).keys()];
-        // console.log("choice array of friendIndexes: ", choiceArr);
         let copyOfChoiceArr = choiceArr.slice();
-        // console.log("choice array of copied indexes: ", copyOfChoiceArr);
         let randomArr = [];
+        
 
         // TODO: Handle uneven split divide using random assignment
         // diff -> No. of times 0.01 should be added
         // Pick random index "diff" times
         for (let i = 0; i < difference; i++) {
             let randIdx = getRandomInt(copyOfChoiceArr.length);
-            // console.log("random index round " + i + ": ", randIdx);
             randomArr.push(friendsSelected[randIdx]);
             copyOfChoiceArr.splice(randIdx, 1);
-            // console.log("choice array of copied indexes updated: ", copyOfChoiceArr);
         }
 
-        // console.log("final random choices array: ", randomArr);
         let friendsInvolved = [];
         friendsSelected.forEach(friend =>
             friendsInvolved.push({
@@ -109,10 +120,10 @@ const AddItem = () => {
                 splitAmount: difference === 0 ? splitAmount : randomArr.includes(friend) ? parseFloat((splitAmount + 0.01).toFixed(2)) : splitAmount,
             })
         )
-        // console.log("Friends Involved that is to be dispatched: ", friendsInvolved);
         dispatch({
-            type: "ADD_NEW_ITEM",
+            type: "EDIT_ITEM",
             payload: {
+                id: id,
                 name: itemName,
                 cost: itemCost,
                 tax: itemTax,
@@ -120,9 +131,6 @@ const AddItem = () => {
                 totalCost,
             }
         })
-        // dispatch({
-        //     type: "RESET_FRIEND_IS_SELECTED",
-        // })
         navigate("/items");
     }
 
@@ -175,13 +183,13 @@ const AddItem = () => {
                             {"Friends Involved"}
                         </Typography>
                         <List>
-                            {friendsList.map((friend, idx) => (
+                            {friendsList.map((each, idx) => (
                                 <NameCardListItem
                                     key={idx}
-                                    nameObj={friend}
-                                    handleFriendSelection={() => handleSelectedFriend(friend.id)}
+                                    nameObj={each}
+                                    handleFriendSelection={() => handleSelectedFriend(each.id)}
                                     colorIdx={idx}
-                                    isSelected={friendsSelected.includes(friend.id)}
+                                    isSelected={friendsSelected.includes(each.id)}
                                 />
                             ))}
                         </List>
@@ -204,4 +212,4 @@ const AddItem = () => {
     )
 }
 
-export default AddItem;
+export default EditItem;

@@ -30,17 +30,17 @@ const Header = () => {
                     </Stack>
                     <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"} spacing={4}>
                         <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"} spacing={2}>
-                            <Button variant={"text"} sx={{ textTransform: "none" }}>
+                            <Button variant={"text"}>
                                 <Typography variant={"body1"} color={"textPrimary"} onClick={() => handleButtonClick("home")}>
                                     {"Home"}
                                 </Typography>
                             </Button>
-                            <Button variant={"text"} sx={{ textTransform: "none" }} onClick={() => handleButtonClick("items")}>
+                            <Button variant={"text"} onClick={() => handleButtonClick("items")}>
                                 <Typography variant={"body1"} color={"textPrimary"}>
                                     {"Items"}
                             </Typography>
                             </Button>
-                            <Button variant={"text"} sx={{ textTransform: "none" }} onClick={() => handleButtonClick("summary")}>
+                            <Button variant={"text"} onClick={() => handleButtonClick("summary")}>
                                 <Typography variant={"body1"} color={"textPrimary"}>
                                     {"Summary"}
                                 </Typography>

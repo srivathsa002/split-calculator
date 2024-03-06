@@ -5,10 +5,16 @@ import { Box, Grid, IconButton, InputAdornment, Stack, TextField, Typography } f
 import React, { useEffect, useState } from 'react';
 import NameCard from '../molecules/NameCard';
 import NoContent from '../molecules/NoContent';
+import { useDispatch, useSelector } from 'react-redux';
+
+const selectFriends = (state) => state.friends;
 
 const HomeCard = () => {
 
-    const [friendsList, setFriendsList] = useState([]);
+    const dispatch = useDispatch();
+
+    const friends = useSelector(selectFriends);
+
     const [input, setInput] = useState("");
     const [isDisabled, setIsDisabled] = useState(true);
 
@@ -19,14 +25,20 @@ const HomeCard = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setFriendsList([...friendsList, input]);
         setInput("");
+        dispatch({
+            type: "ADD_NEW_FRIEND",
+            payload: input
+        });
     }
 
-    const handleRemoveFriend = (idx) => {
-        let curFriends = [...friendsList];
-        curFriends.splice(idx, 1);
-        setFriendsList([...curFriends]);
+    const handleRemoveFriend = (id) => {
+        let curFriends = [...friends];
+        curFriends.splice(id, 1);
+        dispatch({
+            type: "REMOVE_FRIEND",
+            payload: id
+        });
     }
 
     useEffect(() => {
@@ -83,12 +95,12 @@ const HomeCard = () => {
                                 {"Friends"}
                             </Typography>
                             {
-                                friendsList.length !== 0 ?
-                                    friendsList.map((each, idx) => (
+                                friends.length !== 0 ?
+                                    friends.map((each, idx) => (
                                         <Stack key={idx} direction={"row"} justifyContent={"space-between"} alignItems={"center"} spacing={8}>
-                                            <NameCard name={each} colorCode={idx} />
+                                            <NameCard name={each.name} colorCode={idx} displayAvatar={true} />
                                             <IconButton
-                                                onClick={() => handleRemoveFriend(idx)}
+                                                onClick={() => handleRemoveFriend(each.id)}
                                                 color={"inherit"}
                                             >
                                                 <DeleteIcon />

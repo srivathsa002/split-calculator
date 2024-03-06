@@ -7,7 +7,7 @@ import CustomCard from "../organisms/CustomCard";
 import NamesCard from "../organisms/NamesCard";
 // import AddIcon from '@mui/icons-material/Add';
 // import DeleteIcon from '@mui/icons-material/Delete';
-import SplitSummary from "../organisms/SplitSummary";
+import SplitSumary from "../organisms/SplitSumary";
 
 const detailsObj = {
     id: uuidv4(),
@@ -96,7 +96,7 @@ const MainTemplate = () => {
                     <Grid container>
                         {itemSplitSummary.map((each, index) => (
                             <Grid item key={index} xs={4}>
-                                <SplitSummary splitSummaryObj={each} />
+                                <SplitSumary splitSummaryObj={each} />
                             </Grid>
                         ))}
                     </Grid>

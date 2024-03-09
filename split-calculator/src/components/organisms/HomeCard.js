@@ -32,6 +32,8 @@ const HomeCard = () => {
         });
     }
 
+
+    // TODO: Don't allow friend to be removed, if a friend is associated to atleast 1 item.
     const handleRemoveFriend = (id) => {
         let curFriends = [...friends];
         curFriends.splice(id, 1);

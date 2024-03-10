@@ -10,11 +10,11 @@ const Header = () => {
 
     const handleButtonClick = (buttonText) => {
         if (buttonText === "home") {
-            navigate("/");
+            navigate("/split-calculator/");
         } else if (buttonText === "items") {
-            navigate("/items");
+            navigate("/split-calculator/items");
         } else {
-            navigate("/splitSummary");
+            navigate("/split-calculator/splitSummary");
         }
     }
 

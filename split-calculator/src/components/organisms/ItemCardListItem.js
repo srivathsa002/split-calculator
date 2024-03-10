@@ -26,7 +26,6 @@ const ItemCardListItem = (props) => {
                             onChange={handleItemSelection}
                         />
                     </ListItemIcon>
-                    {console.dir("itemObj", itemObj)}
                     <ItemCard item={itemObj} getFriendsNames={getFriendsNames} />
                 </ListItemButton>
             </ListItem>

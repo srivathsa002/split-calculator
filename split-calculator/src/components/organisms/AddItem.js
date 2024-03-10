@@ -20,16 +20,12 @@ const AddItem = () => {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        console.log("useEffect => friendsSelected: ", friendsSelected);
-    }, [friendsSelected])
-
     const handleClear = () => {
         setItemName("");
         setItemCost("");
         setItemTax("");
         setFriendsSelected([]);
-        navigate("/items");
+        navigate("/split-calculator/items");
     }
 
     const handleTaxInput = (value) => {
@@ -67,27 +63,17 @@ const AddItem = () => {
     }
 
     const handleAddItem = () => {
-        // console.log("Inside Add Item:::::");
-        // console.log("selected friends: " + friendsSelected.length);
         let totalCost = parseFloat((Number(itemCost) * (1 + Number(itemTax)/100)).toFixed(2));
-        // console.log("total Cost: " + totalCost);
         let splitAmount = totalCost/(friendsSelected.length);
-        // console.log("split amount: " + splitAmount);
         splitAmount *= 100;
-        // console.log("split amount multiplied by 100: " + splitAmount);
         splitAmount = Math.floor(splitAmount)/100;
-        // console.log("final split amount: " + splitAmount);
         let difference = parseFloat((totalCost - splitAmount*(friendsSelected.length)).toFixed(2));
-        // console.log("difference: " + difference);
         while(!Number.isInteger(difference)) {
             difference *= 10;
         }
-        // console.log("difference after while loop: " + difference);
-
+        
         let choiceArr = [...Array(friendsSelected.length).keys()];
-        // console.log("choice array of friendIndexes: ", choiceArr);
         let copyOfChoiceArr = choiceArr.slice();
-        // console.log("choice array of copied indexes: ", copyOfChoiceArr);
         let randomArr = [];
 
         // TODO: Handle uneven split divide using random assignment
@@ -95,13 +81,10 @@ const AddItem = () => {
         // Pick random index "diff" times
         for (let i = 0; i < difference; i++) {
             let randIdx = getRandomInt(copyOfChoiceArr.length);
-            // console.log("random index round " + i + ": ", randIdx);
             randomArr.push(friendsSelected[randIdx]);
             copyOfChoiceArr.splice(randIdx, 1);
-            // console.log("choice array of copied indexes updated: ", copyOfChoiceArr);
         }
 
-        // console.log("final random choices array: ", randomArr);
         let friendsInvolved = [];
         friendsSelected.forEach(friend =>
             friendsInvolved.push({
@@ -109,7 +92,6 @@ const AddItem = () => {
                 splitAmount: difference === 0 ? splitAmount : randomArr.includes(friend) ? parseFloat((splitAmount + 0.01).toFixed(2)) : splitAmount,
             })
         )
-        // console.log("Friends Involved that is to be dispatched: ", friendsInvolved);
         dispatch({
             type: "ADD_NEW_ITEM",
             payload: {
@@ -123,7 +105,7 @@ const AddItem = () => {
         // dispatch({
         //     type: "RESET_FRIEND_IS_SELECTED",
         // })
-        navigate("/items");
+        navigate("/split-calculator/items");
     }
 
     return (

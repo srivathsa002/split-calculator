@@ -41,9 +41,6 @@ const CustomCard = (props) => {
     }
 
     const calculateSplit = () => {
-        console.log((amount * (tax/100)));
-        console.log((amount + (amount * (tax/100))));
-        console.log((amount + (amount * (tax/100)))/people.length);
         const obj = {
             "itemName": item,
             "totalCost": amount,

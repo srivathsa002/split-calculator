@@ -5,7 +5,6 @@ import { colorCodes } from "../../utils/colorCodes";
 const NameCard = (props) => {
 
     const { name, colorCode, itemCount, displayAvatar } = props;
-    {console.log("item count: " + itemCount);}
 
     const getAvatarLabel = (givenName) => {
         let avatarLabel = "";

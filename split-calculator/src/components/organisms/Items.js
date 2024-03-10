@@ -13,18 +13,15 @@ const Items = () => {
     const navigate = useNavigate();
     const friendsList = useSelector(selectFriends);
     const itemsList = useSelector(selectItems);
-    console.log("itemsList: ", itemsList);
     const dispatch = useDispatch();
 
     const [selectedItem, setSelectedItem] = useState("");
 
     const handleAddItem = () => {
-        navigate("/items/addItem");
+        navigate("/split-calculator/items/addItem");
     };
 
     const getFriendsNames = (friendIds) => {
-        console.log("getFriendName: " + friendIds);
-        console.dir("list: ", friendsList);
         let names = [];
         friendIds.forEach(each => names.push(friendsList.filter(friend => friend.id === each.id)[0].name));
         // friendsList.forEach(friend => friendIds.includes(friend.id) && names.push(friend.name));
@@ -32,11 +29,11 @@ const Items = () => {
     };
 
     const handleEditItem = () => {
-        navigate(`/items/${selectedItem}/edit`);
+        navigate(`/split-calculator/items/${selectedItem}/edit`);
     }
 
     const handleDeleteItem = () => {
-        // navigate(`/items/edit/:id`);
+        // navigate(`/split-calculator/items/edit/:id`);
         dispatch({
             type: "REMOVE_ITEM",
             payload: selectedItem,

@@ -40,7 +40,6 @@ const MainTemplate = () => {
 
     const handleNames = (name) => {
         if (name.trim() === "") return;
-        console.log("name is: " + name);
         let newNames = [...names];
         newNames.push(name);
         setNames([...newNames]);

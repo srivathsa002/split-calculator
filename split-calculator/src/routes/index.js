@@ -8,27 +8,27 @@ import SummaryTemplate from "../components/templates/SummaryTemplate";
 
 export const router = createBrowserRouter([
     {
-        path: "/",
+        path: "/split-calculator/",
         element: <App />,
         children: [
             {
-                path: "/",
+                path: "/split-calculator/",
                 element: <HomeCard />
             },
             {
-                path: "/items",
+                path: "/split-calculator/items",
                 element: <Items />,
             },
             {
-                path: "/items/addItem",
+                path: "/split-calculator/items/addItem",
                 element: <AddItem />,
             },
             {
-                path: "/items/:id/edit",
+                path: "/split-calculator/items/:id/edit",
                 element: <EditItem />,
             },
             {
-                path: "/splitSummary",
+                path: "/split-calculator/splitSummary",
                 element: <SummaryTemplate />
             }
         ],

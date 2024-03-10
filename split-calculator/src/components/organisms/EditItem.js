@@ -25,10 +25,6 @@ const EditItem = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.dir("useEffect => friendsSelected: ", friendsSelected);
-    }, [friendsSelected])
-
-    useEffect(() => {
         let itemObj = itemsList.filter(item => item.id === id);
         setItemName(itemObj[0].name);
         setItemCost(itemObj[0].cost);
@@ -43,7 +39,7 @@ const EditItem = () => {
         setItemName("");
         setItemCost("");
         setItemTax("");
-        navigate("/items");
+        navigate("/split-calculator/items");
     }
 
     const handleTaxInput = (value) => {
@@ -131,7 +127,7 @@ const EditItem = () => {
                 totalCost,
             }
         })
-        navigate("/items");
+        navigate("/split-calculator/items");
     }
 
     return (

@@ -20,13 +20,13 @@ export const REMOVE_ITEM = {
     type: ACTION_TYPES.REMOVE_ITEM,
 }
 
-export const ALTER_IS_SELECTED = {
-    type: ACTION_TYPES.ALTER_IS_SELECTED,
-}
+// export const ALTER_IS_SELECTED = {
+//     type: ACTION_TYPES.ALTER_IS_SELECTED,
+// }
 
-export const RESET_FRIEND_IS_SELECTED = {
-    type: ACTION_TYPES.RESET_FRIEND_IS_SELECTED,
-}
+// export const RESET_FRIEND_IS_SELECTED = {
+//     type: ACTION_TYPES.RESET_FRIEND_IS_SELECTED,
+// }
 
 export const FETCH_ITEM = {
     type: ACTION_TYPES.FETCH_ITEM,

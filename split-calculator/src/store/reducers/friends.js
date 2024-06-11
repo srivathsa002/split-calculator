@@ -17,23 +17,23 @@ const friendsReducer = (state = initialState, action) => {
             ];
         case ACTION_TYPES.REMOVE_FRIEND:
             return state.filter(friend => friend.id !== action.payload);
-        case ACTION_TYPES.ALTER_IS_SELECTED:
-            return state.map(friend => {
-                if (friend.id === action.payload) {
-                    return {
-                        ...friend,
-                        isSelected: !friend.isSelected,
-                    };
-                }
-                return friend;
-            });
-        case ACTION_TYPES.RESET_FRIEND_IS_SELECTED:
-            return state.map(friend => {
-                    return {
-                        ...friend,
-                        isSelected: false,
-                    };
-                });
+        // case ACTION_TYPES.ALTER_IS_SELECTED:
+        //     return state.map(friend => {
+        //         if (friend.id === action.payload) {
+        //             return {
+        //                 ...friend,
+        //                 isSelected: !friend.isSelected,
+        //             };
+        //         }
+        //         return friend;
+        //     });
+        // case ACTION_TYPES.RESET_FRIEND_IS_SELECTED:
+        //     return state.map(friend => {
+        //             return {
+        //                 ...friend,
+        //                 isSelected: false,
+        //             };
+        //         });
         default:
             return state;
     }

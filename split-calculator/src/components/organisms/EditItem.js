@@ -21,6 +21,26 @@ const EditItem = () => {
     const [itemCost, setItemCost] = useState("");
     const [itemTax, setItemTax] = useState("");
     const [friendsSelected, setFriendsSelected] = useState([]);
+    const [isSaveDisabled, setIsSaveDisabled] = useState(true);
+
+    // const [isSelectAllChecked, setIsSelectAllChecked] = useState(false);
+
+    // useEffect(() => {
+    //     if (isSelectAllChecked) {
+    //         let alreadySelected = [];
+    //         friendsList.forEach(friend => alreadySelected.push(friend.id));
+    //         setFriendsSelected([...alreadySelected]);
+    //     }
+    //     else
+    //         setFriendsSelected([]);
+    // }, [isSelectAllChecked])
+
+    useEffect(() => {
+        if (friendsSelected.length > 0)
+            setIsSaveDisabled(false);
+        else
+            setIsSaveDisabled(true);
+    }, [friendsSelected])
 
     const navigate = useNavigate();
 
@@ -91,7 +111,7 @@ const EditItem = () => {
         splitAmount *= 100;
         splitAmount = Math.floor(splitAmount)/100;
         let difference = parseFloat((totalCost - splitAmount*friendsSelected.length).toFixed(2));
-        while(!Number.isInteger(difference)) {
+        while(!Number.isInteger(Math.round(difference))) {
             difference *= 10;
         }
 
@@ -147,6 +167,7 @@ const EditItem = () => {
                             variant={"outlined"}
                             sx={{ minWidth: "-webkit-fill-available" }}
                             autoFocus
+                            required
                         />
                         <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"} spacing={1}>
                             <TextField
@@ -163,6 +184,7 @@ const EditItem = () => {
                                 }}
                                 onChange={(event) => handleCostInput(event.target.value)}
                                 variant={"outlined"}
+                                required
                                 // sx={{ minWidth: "-webkit-fill-available" }}
                             />
                             <TextField
@@ -172,12 +194,18 @@ const EditItem = () => {
                                 value={itemTax}
                                 onChange={(event) => handleTaxInput(event.target.value)}
                                 variant={"outlined"}
+                                required
                                 // sx={{ minWidth: "-webkit-fill-available" }}
                             />
                         </Stack>
-                        <Typography variant={"h6"} color={"textPrimary"}>
-                            {"Friends Involved"}
-                        </Typography>
+                        {/* <Stack  direction={"row"} alignItems={"center"} justifyContent={"space-between"}> */}
+                            <Typography variant={"h6"} color={"textPrimary"}>
+                                {"Friends Involved"}
+                            </Typography>
+                            {/* <IconButton color={isSelectAllChecked ? "primary" : "black"} onClick={() => setIsSelectAllChecked(!isSelectAllChecked)}>
+                                <CheckCircleOutlinedIcon />
+                            </IconButton>
+                        </Stack> */}
                         <List>
                             {friendsList.map((each, idx) => (
                                 <NameCardListItem
@@ -197,7 +225,7 @@ const EditItem = () => {
                             }}>
                                 {"Cancel"}
                             </Button>
-                            <Button variant={"contained"} color={"primary"} onClick={() => handleAddItem()}>
+                            <Button variant={"contained"} color={"primary"} onClick={() => handleAddItem()} disabled={isSaveDisabled}>
                                 {"Save"}
                             </Button>
                         </Stack>
